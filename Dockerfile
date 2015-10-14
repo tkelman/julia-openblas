@@ -11,4 +11,7 @@ RUN dpkg --add-architecture i386 && apt-get update && \
     echo 'override ARCH = i686' >> /home/julia-i686/Make.user && \
     echo 'override MARCH = pentium4' >> /home/julia-i686/Make.user && \
     cd /home/julia-i686 && make -j2 -C deps install-openblas && \
-    cd /home/julia-x86_64 && make -j2 -C deps install-openblas
+    cd /home/julia-x86_64 && make -j2 -C deps install-openblas && \
+    cd /home/julia-i686 && make -j2 -C deps distclean-openblas && \
+    cd /home/julia-x86_64 && make -j2 -C deps distclean-openblas
+# distclean-openblas should leave in place the installed library
