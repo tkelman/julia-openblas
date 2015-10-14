@@ -11,7 +11,12 @@ RUN dpkg --add-architecture i386 && apt-get update && \
     echo 'override ARCH = i686' >> /home/julia-i686/Make.user && \
     echo 'override MARCH = pentium4' >> /home/julia-i686/Make.user && \
     for ARCH in i686 x86_64; do \
-      cd /home/julia-$ARCH && make -j2 -C deps install-openblas && \
-      make -j2 -C deps distclean-openblas; \
+      DEPS="openblas arpack suitesparse"; \
+      for dep in $DEPS; do \
+        cd /home/julia-$ARCH && make -j2 -C deps install-$dep; \
+      done && \
+      for dep in $DEPS; do \
+        cd /home/julia-$ARCH && make -C deps distclean-$dep; \
+      done \
     done
-# distclean-openblas should leave in place the installed library
+# distclean should leave in place the installed libraries and headers
