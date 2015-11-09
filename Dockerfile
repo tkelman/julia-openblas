@@ -13,7 +13,7 @@ RUN dpkg --add-architecture i386 && apt-get update && \
     for ARCH in i686 x86_64; do \
       DEPS="openblas arpack suitesparse"; \
       for dep in $DEPS; do \
-        cd /home/julia-$ARCH && make -j4 -C deps install-$dep; \
+        cd /home/julia-$ARCH && make -C deps install-$dep; \
       done && \
       for dep in $DEPS; do \
         cd /home/julia-$ARCH && make -C deps distclean-$dep; \
